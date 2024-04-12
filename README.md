@@ -20,3 +20,7 @@ spring.jpa.show-sql=true
 Me këto konfigurime,kemi përcaktuar Flyway për të menaxhuar migrimet e bazës së të dhënave në MySQL dhe kemi  specifikuar migrimet e parapraka në skriptën v1__create_tables.sql.
 
 
+## Testimi i funksionalitetit të ORM-së dhe migrimet në databazë duke përdorur Postman
+
+![Screenshot 2024-04-12 224232](https://github.com/RinesaBislimi/Backend-FoodOrder/assets/118773246/1555c873-f0e0-4410-8126-e072c36b894f)
+
