@@ -19,6 +19,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.foodwebsite.model.USER_ROLE;
+import com.foodwebsite.request.loginRequest;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import java.util.Collection;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -65,4 +72,36 @@ public class AuthController {
 
         return new ResponseEntity<>(authResponse, HttpStatus.CREATED);
     }
+
+    @PostMapping("/signin")
+
+    public ResponseEntity<AuthResponse> singnin(@RequestBody loginRequest req){
+
+        String username=req.getEmail();
+        String password = req.getPassword();
+
+        Authentication authentication=authenticate(username,password);
+        Collection<? extends GrantedAuthority>authorities=authentication.getAuthorities();
+        String role=authorities.isEmpty()?null:authorities.iterator().next().getAuthority();
+        String jwt = jwtProvider.generateToken(authentication);
+
+        AuthResponse authResponse = new AuthResponse();
+        authResponse.setJwt(jwt);
+        authResponse.setMessage("Login success");
+        authResponse.setRole(USER_ROLE.valueOf(role));
+
+        return new ResponseEntity<>(authResponse, HttpStatus.OK);
+    }
+
+    private Authentication authenticate(String username, String password) {
+        UserDetails userDetails = customerUserDetailsService.loadUserByUsername(username);
+        if (userDetails == null) {
+            throw new BadCredentialsException("Invalid username...");
+        }
+        if(!passwordEncoder.matches(password,userDetails.getPassword())){
+            throw new BadCredentialsException("invialid password...");
+        }
+        return new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
+    }
 }
+
