@@ -25,4 +25,6 @@ public class OrderItem {
 
     private List<String> ingredients;
 
+    @ManyToOne
+    private Order order; // Bidirectional relationship
 }
