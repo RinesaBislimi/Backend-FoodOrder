@@ -13,6 +13,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "orders") // Specify a different table name
 public class Order {
 
     @Id
@@ -35,14 +36,10 @@ public class Order {
     @ManyToOne
     private Address deliveryAddress;
 
-    @OneToMany
+    @OneToMany(mappedBy = "order")
     private List<OrderItem> items;
 
-    // private Payment payment;
-
-    private  int totalItem;
+    private int totalItem;
 
     private int totalPrice;
-
-
 }
