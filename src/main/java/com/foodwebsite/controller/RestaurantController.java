@@ -29,10 +29,11 @@ public class RestaurantController {
             @RequestHeader("Authorization") String jwt,
             @RequestParam String keyword
     ) throws Exception{
+
         User user=userService.findUserByJwtToken(jwt);
 
         List<Restaurant> restaurant=restaurantService.searchRestaurant(keyword);
-        return new ResponseEntity<>(restaurant, HttpStatus.CREATED);
+        return new ResponseEntity<>(restaurant, HttpStatus.OK);
 
 
     }
@@ -44,7 +45,7 @@ public class RestaurantController {
         User user=userService.findUserByJwtToken(jwt);
 
         List<Restaurant> restaurant=restaurantService.getAllRestaurant();
-        return new ResponseEntity<>(restaurant, HttpStatus.CREATED);
+        return new ResponseEntity<>(restaurant, HttpStatus.OK);
 
 
     }
