@@ -10,12 +10,13 @@ import com.foodwebsite.repository.UserRepository;
 import com.foodwebsite.request.CreateRestaurantRequest;
 import jakarta.persistence.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-@Entity
+@Service
 public class RestaurantServiceImp implements RestaurantService {
 
     @Autowired
