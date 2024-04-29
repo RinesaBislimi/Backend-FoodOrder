@@ -30,6 +30,7 @@ public class Restaurant {
     @OneToOne
     private Address address;
 
+
     @Embedded
     private ContactInformation contactInformation;
 
