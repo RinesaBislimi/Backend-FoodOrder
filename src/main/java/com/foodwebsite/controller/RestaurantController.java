@@ -3,7 +3,6 @@ package com.foodwebsite.controller;
 import com.foodwebsite.dto.RestaurantDto;
 import com.foodwebsite.model.Restaurant;
 import com.foodwebsite.model.User;
-import com.foodwebsite.request.CreateRestaurantRequest;
 import com.foodwebsite.service.RestaurantService;
 import com.foodwebsite.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @RestController
 @RequestMapping("/api/restaurants")
@@ -70,8 +67,4 @@ public class RestaurantController {
         RestaurantDto restaurant = restaurantService.addToFavorites(id, user);
         return new ResponseEntity<>(restaurant, HttpStatus.OK);
     }
-
-
-
-
 }

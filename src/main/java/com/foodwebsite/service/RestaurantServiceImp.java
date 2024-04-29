@@ -8,7 +8,6 @@ import com.foodwebsite.repository.AddressRepository;
 import com.foodwebsite.repository.RestaurantRepository;
 import com.foodwebsite.repository.UserRepository;
 import com.foodwebsite.request.CreateRestaurantRequest;
-import jakarta.persistence.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

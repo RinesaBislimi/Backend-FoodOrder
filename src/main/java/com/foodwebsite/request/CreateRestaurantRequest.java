@@ -4,7 +4,6 @@ import com.foodwebsite.model.Address;
 import com.foodwebsite.model.ContactInformation;
 
 import java.util.List;
-import java.time.LocalDateTime;
 
 public class CreateRestaurantRequest {
 

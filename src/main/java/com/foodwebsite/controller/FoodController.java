@@ -2,9 +2,7 @@ package com.foodwebsite.controller;
 
 
 import com.foodwebsite.model.Food;
-import com.foodwebsite.model.Restaurant;
 import com.foodwebsite.model.User;
-import com.foodwebsite.request.CreateFoodRequest;
 import com.foodwebsite.service.FoodService;
 import com.foodwebsite.service.RestaurantService;
 import com.foodwebsite.service.UserService;
