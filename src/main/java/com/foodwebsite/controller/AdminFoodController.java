@@ -7,7 +7,6 @@ import com.foodwebsite.model.User;
 import com.foodwebsite.request.CreateFoodRequest;
 import com.foodwebsite.response.MessageResponse;
 import com.foodwebsite.service.FoodService;
-import com.foodwebsite.service.FoodServiceImp;
 import com.foodwebsite.service.RestaurantService;
 import com.foodwebsite.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +48,8 @@ public class AdminFoodController {
 
         return new ResponseEntity<>(res, HttpStatus.CREATED)                ;
     }
-    @PostMapping("/{id}")
+    
+    @PutMapping("/{id}")
     public ResponseEntity<Food>updateFoodAvaibilityStatus(@PathVariable Long id,
                                                      @RequestHeader("Authorizaton") String jwt) throws Exception{
         User user=userService.findUserByJwtToken(jwt);
