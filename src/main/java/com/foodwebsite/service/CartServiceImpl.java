@@ -22,6 +22,9 @@ public class CartServiceImpl  implements CartService {
     @Autowired
 
     private  UserService userService;
+
+    @Autowired
+    private FoodService foodService;
     @Autowired
 
     private CartItemRepository cartItemRepository;
@@ -34,11 +37,11 @@ public class CartServiceImpl  implements CartService {
     @Override
     public CartItem additemToCart(AddCartItemRequest req, String jwt) throws Exception {
         User user=userService.findUserByJwtToken(jwt);
-        Food food=foodService.findFoodById(req.getFoodId());
+        Food food=foodService.findfoodById(req.getFoodId());
 
         Cart cart=cartRepository.findByCustomerId(user.getId());
 
-        for(CartItem cartItem: cart.getItems()){
+        for(CartItem cartItem: cart.getItem()){
             if(cartItem.getFood().equals(food)){
                 int newQuantity=cartItem.getQuantity()+req.getQuantity();
                 return updateCartItemQuantity(cartItem.getId(),newQuantity);
@@ -55,7 +58,7 @@ public class CartServiceImpl  implements CartService {
 
         CartItem savedCartItem=cartItemRepository.save(newCartItem);
 
-        cart.getItems().add(savedCartItem);
+        cart.getItem().add(savedCartItem);
 
 
         return savedCartItem;
@@ -92,7 +95,7 @@ public class CartServiceImpl  implements CartService {
 
         }
         CartItem item=cartItemOptional.get();
-        cart.getItems().remove(item);
+        cart.getItem().remove(item);
         return cartRepository.save(cart);
     }
 
@@ -100,7 +103,7 @@ public class CartServiceImpl  implements CartService {
     public Long calculateCartTotals(Cart cart) throws Exception {
 
         Long total=0L;
-        for(CartItem cartItem :cart.getItems()){
+        for(CartItem cartItem :cart.getItem()){
             total+=cartItem.getFood().getPrice()*cartItem.getQuantity();
         }
         return total;
@@ -117,17 +120,22 @@ public class CartServiceImpl  implements CartService {
     }
 
     @Override
-    public Cart findCartByUserId(String jwt) throws Exception {
-        User user=userService.findUserByJwtToken(jwt);
-        return cartRepository.findByCustomerId(user.getId());
+    public Cart findCartByUserId(Long userId) throws Exception {
+
+        Cart cart = cartRepository.findByCustomerId(userId);
+        cart.setTotal(calculateCartTotals(cart));
+
+        return cart;
     }
 
-    @Override
-    public Cart clearCart(String jwt) throws Exception {
-        User user=userService.findUserByJwtToken(jwt);
-        Cart cart=findCartByUserId(jwt);
 
-        cart.getItems().clear();
+
+    @Override
+    public Cart clearCart(Long userId) throws Exception {
+     //  User user=userService.findUserByJwtToken(userId);
+        Cart cart=findCartByUserId(userId);
+
+        cart.getItem().clear();
         return cartRepository.save(cart);
 
     }
