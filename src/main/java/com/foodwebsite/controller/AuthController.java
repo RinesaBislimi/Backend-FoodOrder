@@ -7,6 +7,8 @@ import com.foodwebsite.repository.CartRepository;
 import com.foodwebsite.repository.UserRepository;
 import com.foodwebsite.response.AuthResponse;
 import com.foodwebsite.service.CustomerUserDetailsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,6 +42,9 @@ public class AuthController {
     private CustomerUserDetailsService customerUserDetailsService;
     @Autowired
     private CartRepository cartRepository;
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
+
+
 
     @PostMapping("/signup")
     public ResponseEntity<AuthResponse> createUserHandler(@RequestBody User user) throws Exception {
@@ -65,6 +70,8 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String jwt = jwtProvider.generateToken(authentication);
+        logger.info("JWT Token: {}", jwt); // Add this line to log the JWT token
+
         AuthResponse authResponse = new AuthResponse();
         authResponse.setJwt(jwt);
         authResponse.setMessage("Register success");
@@ -84,6 +91,7 @@ public class AuthController {
         Collection<? extends GrantedAuthority>authorities=authentication.getAuthorities();
         String role=authorities.isEmpty()?null:authorities.iterator().next().getAuthority();
         String jwt = jwtProvider.generateToken(authentication);
+        logger.info("JWT Token: {}", jwt);
 
         AuthResponse authResponse = new AuthResponse();
         authResponse.setJwt(jwt);
