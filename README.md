@@ -33,7 +33,7 @@ Me këto konfigurime,kemi përcaktuar Flyway për të menaxhuar migrimet e bazë
 4. Përmes "Postman", kemi mundur të testojmë komunikimin mes aplikacionit tonë dhe klientëve të tij në një mënyrë të dokumentuar dhe të automatizuar.
 5. Hapi përfundimtar ka përfshirë identifikimin dhe zgjidhjen e çdo problemi të mundshëm në një mënyrë efikase dhe efektive duke përdorur rezultatet nga testet e kryera në "Postman".
 ```
+![Screenshot 2024-05-13 164443](https://github.com/RinesaBislimi/Backend-FoodOrder/assets/118773246/a08cce67-845c-4ac0-ac0c-cdf3e514d901)
 
-![Screenshot 2024-04-12 225206](https://github.com/RinesaBislimi/Backend-FoodOrder/assets/118773246/0dbea0c5-d7f2-48d3-9e93-5a7c69645754)
 
 
