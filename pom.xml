@@ -137,7 +137,7 @@
 				<configuration>
 					<url>jdbc:mysql://localhost:3306/foodDB</url>
 					<user>root</user>
-					<password>Rinesa123.</password>
+					<password>Data.1234</password>
 					<schemas>
 						<schema>public</schema>
 					</schemas>
