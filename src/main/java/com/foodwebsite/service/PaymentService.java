@@ -4,8 +4,6 @@ import com.foodwebsite.model.Order;
 import com.foodwebsite.response.PaymentResponse;
 import com.stripe.exception.StripeException;
 
-
-
 public interface PaymentService {
-    public PaymentResponse createPaymentLink(Order order) throws StripeException;
+    PaymentResponse createPaymentLink(Order order) throws StripeException;
 }
