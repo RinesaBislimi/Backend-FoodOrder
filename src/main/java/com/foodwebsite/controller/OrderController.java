@@ -6,7 +6,9 @@ import com.foodwebsite.model.Order;
 import com.foodwebsite.model.User;
 import com.foodwebsite.request.AddCartItemRequest;
 import com.foodwebsite.request.OrderRequest;
+import com.foodwebsite.response.PaymentResponse;
 import com.foodwebsite.service.OrderService;
+import com.foodwebsite.service.PaymentService;
 import com.foodwebsite.service.UserService;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,16 +24,20 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private PaymentService paymentService;
+
 
     @Autowired
     private UserService userService;
     @PostMapping("/orders")
-    public ResponseEntity<Order> createOrder(@RequestBody OrderRequest req,
-                                                  @RequestHeader("Authorization") String jwt) throws Exception {
+    public ResponseEntity<PaymentResponse> createOrder(@RequestBody OrderRequest req,
+                                                       @RequestHeader("Authorization") String jwt) throws Exception {
 
         User user = userService.findUserByJwtToken(jwt);
         Order order = orderService.createOrder(req,user);
-        return new ResponseEntity<>(order, HttpStatus.OK);
+        PaymentResponse res=paymentService.createPaymentLink(order);
+        return new ResponseEntity<>(res, HttpStatus.OK);
 
     }
 
