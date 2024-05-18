@@ -27,15 +27,25 @@ public class IngredientController {
     private IngredientsService ingredientsService;
 
     @PostMapping("/category")
-    public ResponseEntity<IngredientCategory> createIngredientCategory(
-        @RequestBody IngredientCategoryRequest req
-        ) throws Exception{
+    public ResponseEntity<?> createIngredientCategory(
+            @RequestBody IngredientCategoryRequest req
+    ) {
+        // Check if the request contains a valid restaurantId
+        if (req.getRestaurantId() == null) {
+            return ResponseEntity.badRequest().body("RestaurantId cannot be null");
+        }
 
-        IngredientCategory item = ingredientsService.createIngredientCategory(req.getName(), req.getRestaurantId());
-        return new ResponseEntity<>(item, HttpStatus.CREATED);
+        try {
+            IngredientCategory item = ingredientsService.createIngredientCategory(req.getName(), req.getRestaurantId());
+            return new ResponseEntity<>(item, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    @PostMapping()
+
+
+    @PostMapping("/item")
     public ResponseEntity<IngredientsItem> createIngredientItem(
         @RequestBody IngredientRequest req
         ) throws Exception {

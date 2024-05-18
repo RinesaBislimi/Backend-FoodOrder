@@ -1,8 +1,12 @@
 package com.foodwebsite.controller;
 
 
+import com.foodwebsite.model.Category;
 import com.foodwebsite.model.Food;
+import com.foodwebsite.model.Restaurant;
 import com.foodwebsite.model.User;
+import com.foodwebsite.request.CreateFoodRequest;
+import com.foodwebsite.service.CategoryService;
 import com.foodwebsite.service.FoodService;
 import com.foodwebsite.service.RestaurantService;
 import com.foodwebsite.service.UserService;
@@ -21,9 +25,32 @@ public class FoodController {
 
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private CategoryService categoryService;
     @Autowired
     private RestaurantService restaurantService;
+
+    @PostMapping("/create")
+    public ResponseEntity<Food> createFood(@RequestBody CreateFoodRequest request,
+                                           @RequestHeader("Authorization") String jwt) {
+        try {
+            // Retrieve user information based on the JWT token
+            User user = userService.findUserByJwtToken(jwt);
+
+            // Retrieve category by its ID
+            Category category = categoryService.findCategoryById(request.getCategory().getId());
+
+            // Retrieve restaurant by its ID
+            Restaurant restaurant = restaurantService.findRestaurantById(request.getRestaurantId());
+
+            // Assuming foodService has a method to create a new food item
+            Food createdFood = foodService.createFood(request, category, restaurant);
+
+            return new ResponseEntity<>(createdFood, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 
     @GetMapping("/search")
