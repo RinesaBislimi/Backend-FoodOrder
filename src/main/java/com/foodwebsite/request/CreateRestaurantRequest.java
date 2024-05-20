@@ -1,5 +1,6 @@
 package com.foodwebsite.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.foodwebsite.model.Address;
 import com.foodwebsite.model.ContactInformation;
 
@@ -7,22 +8,13 @@ import java.util.List;
 
 public class CreateRestaurantRequest {
 
-    private long id;
     private String name;
     private String description;
     private String cuisineType;
     private Address address;
     private ContactInformation contactInformation;
-    private String opningHours;
+    private String openingHours;
     private List<String> images;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -64,12 +56,12 @@ public class CreateRestaurantRequest {
         this.contactInformation = contactInformation;
     }
 
-    public String getOpningHours() {
-        return opningHours;
+    public String getOpeningHours() {
+        return openingHours;
     }
 
-    public void setOpningHours(String opningHours) {
-        this.opningHours = opningHours;
+    public void setOpeningHours(String openingHours) {
+        this.openingHours = openingHours;
     }
 
     public List<String> getImages() {
