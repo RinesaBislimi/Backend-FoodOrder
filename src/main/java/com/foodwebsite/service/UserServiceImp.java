@@ -1,6 +1,7 @@
 package com.foodwebsite.service;
 
 import com.foodwebsite.config.JwtProvider;
+import com.foodwebsite.model.USER_ROLE;
 import com.foodwebsite.model.User;
 import com.foodwebsite.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,4 +31,5 @@ public class UserServiceImp implements UserService {
         }
         return user;
     }
+
 }

@@ -24,6 +24,7 @@ public class Food {
     private String description;
 
     private Long price;
+
     @ManyToOne
     private Category foodCategory;
 
@@ -42,7 +43,7 @@ public class Food {
     @ManyToMany
     private List<IngredientsItem> ingredientsItems= new ArrayList<>();
 
-
+    @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
 
 }

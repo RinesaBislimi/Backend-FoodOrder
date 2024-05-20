@@ -59,6 +59,7 @@ public class RestaurantController {
 
 
     }
+    @PutMapping("/{id}/add-favorites")
     public ResponseEntity<RestaurantDto> addToFavorites(
             @RequestHeader("Authorization") String jwt,
             @PathVariable Long id

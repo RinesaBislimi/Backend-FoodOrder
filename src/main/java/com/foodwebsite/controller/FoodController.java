@@ -63,16 +63,22 @@ public class FoodController {
         return new ResponseEntity<>(foods, HttpStatus.CREATED)                ;
     }
     @GetMapping("/restaurant/{restaurantId}")
-    public ResponseEntity<List<Food>> searchFood(@RequestParam (required = false) boolean vagetarian,
-                                                 @RequestParam  (required = false) boolean seasonal,
-                                                 @RequestParam (required = false) boolean nonveg,
-                                                 @RequestParam(required = false) String food_category,
-                                                 @PathVariable Long restaurantId,
-                                                 @RequestHeader("Authorizaton") String jwt) throws Exception{
-        User user=userService.findUserByJwtToken(jwt);
-
-        List<Food> foods=foodService.getRestaurantsFood(restaurantId,vagetarian,nonveg,seasonal,food_category);
-
-        return new ResponseEntity<>(foods, HttpStatus.OK);
+    public ResponseEntity<List<Food>> searchFood(
+            @RequestParam(required = false) boolean vegetarian,
+            @RequestParam(required = false) boolean seasonal,
+            @RequestParam(required = false) boolean nonveg,
+            @RequestParam(required = false) String food_category,
+            @PathVariable Long restaurantId,
+            @RequestHeader("Authorization") String jwt) {
+        try {
+            // Assuming you have implemented the logic to retrieve food items based on the provided parameters
+            List<Food> foods = foodService.getRestaurantsFood(
+                    restaurantId, vegetarian, nonveg, seasonal, food_category);
+            return new ResponseEntity<>(foods, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+
+
 }
