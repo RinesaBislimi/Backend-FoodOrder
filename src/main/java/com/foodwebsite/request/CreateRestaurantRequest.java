@@ -3,8 +3,11 @@ package com.foodwebsite.request;
 import com.foodwebsite.model.Address;
 import com.foodwebsite.model.ContactInformation;
 
+import lombok.Data;
+
 import java.util.List;
 
+@Data
 public class CreateRestaurantRequest {
 
     private long id;
