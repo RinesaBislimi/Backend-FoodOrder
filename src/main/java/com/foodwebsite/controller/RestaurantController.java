@@ -21,6 +21,7 @@ public class RestaurantController {
     @Autowired
     private UserService userService;
 
+
     @GetMapping("/search")
     public ResponseEntity<List<Restaurant>> searchRestaurant(
             @RequestHeader("Authorization") String jwt,
@@ -47,7 +48,7 @@ public class RestaurantController {
 
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Restaurant> findRestaurantByIf(
+    public ResponseEntity<Restaurant> findRestaurantById(
             @RequestHeader("Authorization") String jwt,
             @PathVariable Long id
 
@@ -68,4 +69,8 @@ public class RestaurantController {
         RestaurantDto restaurant = restaurantService.addToFavorites(id, user);
         return new ResponseEntity<>(restaurant, HttpStatus.OK);
     }
+
+
+
+
 }
