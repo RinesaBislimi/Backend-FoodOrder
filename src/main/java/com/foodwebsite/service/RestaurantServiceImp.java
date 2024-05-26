@@ -21,11 +21,13 @@ public class RestaurantServiceImp implements RestaurantService {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
+
     @Autowired
     private AddressRepository addressRepository;
 
     @Autowired
     private UserRepository userRepository;
+
     @Override
     public Restaurant createRestaurant(CreateRestaurantRequest req, User user) {
 
@@ -49,13 +51,13 @@ public class RestaurantServiceImp implements RestaurantService {
     public Restaurant updateRestaurant(Long restaurantId, CreateRestaurantRequest updateRestaurant) throws Exception {
 
         Restaurant restaurant = findRestaurantById(restaurantId);
-        if(restaurant.getCuisineType() != null){
+        if (restaurant.getCuisineType() != null) {
             restaurant.setCuisineType(updateRestaurant.getCuisineType());
         }
-        if(restaurant.getDescription()!=null){
+        if (restaurant.getDescription() != null) {
             restaurant.setDescription(updateRestaurant.getDescription());
         }
-        if(restaurant.getName()!=null){
+        if (restaurant.getName() != null) {
             restaurant.setName(updateRestaurant.getName());
         }
 
@@ -64,7 +66,7 @@ public class RestaurantServiceImp implements RestaurantService {
 
     @Override
     public void deleteRestaurant(Long restaurantId) throws Exception {
-        Restaurant restaurant =findRestaurantById(restaurantId);
+        Restaurant restaurant = findRestaurantById(restaurantId);
         restaurantRepository.delete(restaurant);
     }
 
@@ -83,8 +85,8 @@ public class RestaurantServiceImp implements RestaurantService {
     public Restaurant findRestaurantById(Long Id) throws Exception {
         Optional<Restaurant> opt = restaurantRepository.findById(Id);
 
-        if(opt.isEmpty()){
-            throw  new Exception("Restaurant not found with id"+Id);
+        if (opt.isEmpty()) {
+            throw new Exception("Restaurant not found with id" + Id);
         }
         return opt.get();
     }
@@ -92,42 +94,41 @@ public class RestaurantServiceImp implements RestaurantService {
     @Override
     public Restaurant getRestaurantByUserId(Long userId) throws Exception {
 
-        Restaurant restaurant= restaurantRepository.findByOwnerId(userId);
+        Restaurant restaurant = restaurantRepository.findByOwnerId(userId);
 
-        if(restaurant==null){
-            throw  new Exception("restaurant not found with owner id"+ userId);
+        if (restaurant == null) {
+            throw new Exception("restaurant not found with owner id" + userId);
         }
         return restaurant;
     }
 
     @Override
     public RestaurantDto addToFavorites(Long restaurantId, User user) throws Exception {
-       Restaurant restaurant = findRestaurantById(restaurantId);
+        Restaurant restaurant = findRestaurantById(restaurantId);
 
-       RestaurantDto dto= new RestaurantDto();
-       dto.setDescription(restaurant.getDescription());
-       dto.setImages(restaurant.getImages());
-       dto.setTitle(restaurant.getName());
-       dto.setId(restaurantId);
+        RestaurantDto dto = new RestaurantDto();
+        dto.setDescription(restaurant.getDescription());
+        dto.setImages(restaurant.getImages());
+        dto.setTitle(restaurant.getName());
+        dto.setId(restaurantId);
 
-       boolean isFavorited=false;
-       List<RestaurantDto> favorites=user.getFavorites();
-       for(RestaurantDto favorite:favorites){
-           if(favorite.getId().equals(restaurantId)){
-               isFavorited=true;
-               break;
-           }
-       }
+        boolean isFavorited = false;
+        List<RestaurantDto> favorites = user.getFavorites();
+        for (RestaurantDto favorite : favorites) {
+            if (favorite.getId().equals(restaurantId)) {
+                isFavorited = true;
+                break;
+            }
+        }
 
-       if (isFavorited) {
-           favorites.removeIf(favorite -> favorite.getId().equals(restaurantId));
-       }else {
-           favorites.add(dto);
-       }
+        if (isFavorited) {
+            favorites.removeIf(favorite -> favorite.getId().equals(restaurantId));
+        } else {
+            favorites.add(dto);
+        }
 
 
-
-       userRepository.save(user);
+        userRepository.save(user);
 
         return dto;
     }

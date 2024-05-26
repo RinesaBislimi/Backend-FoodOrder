@@ -80,15 +80,16 @@ public class AdminRestaurantController {
 
     @GetMapping("/user")
     public ResponseEntity<Restaurant> findRestaurantByUserId(
-
             @RequestHeader("Authorization") String jwt
-
     ) throws Exception {
+        // Find the user based on the JWT token
         User user = userService.findUserByJwtToken(jwt);
 
+        // Retrieve the restaurant associated with the user ID
         Restaurant restaurant = restaurantService.getRestaurantByUserId(user.getId());
-        return new ResponseEntity<>(restaurant, HttpStatus.OK);
 
+        // Return the retrieved restaurant as a response with HTTP status OK (200)
+        return new ResponseEntity<>(restaurant, HttpStatus.OK);
     }
 
 

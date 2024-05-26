@@ -1,15 +1,12 @@
 package com.foodwebsite.controller;
 
+import com.foodwebsite.model.Category;
+import com.foodwebsite.model.User;
+import com.foodwebsite.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.foodwebsite.model.IngredientCategory;
 import com.foodwebsite.model.IngredientsItem;
@@ -22,26 +19,27 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/admin/ingredients")
 public class IngredientController {
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private IngredientsService ingredientsServicel;
     
     @Autowired
     private IngredientsService ingredientsService;
 
     @PostMapping("/category")
-    public ResponseEntity<?> createIngredientCategory(
-            @RequestBody IngredientCategoryRequest req
-    ) {
-        // Check if the request contains a valid restaurantId
-        if (req.getRestaurantId() == null) {
-            return ResponseEntity.badRequest().body("RestaurantId cannot be null");
-        }
+    public ResponseEntity<IngredientCategory> createCategory(@RequestBody IngredientCategoryRequest request,
+                                                             @RequestHeader("Authorization") String jwt) throws Exception {
 
-        try {
-            IngredientCategory item = ingredientsService.createIngredientCategory(req.getName(), req.getRestaurantId());
-            return new ResponseEntity<>(item, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        User user = userService.findUserByJwtToken(jwt);
+        IngredientCategory ingredientCategory = ingredientsService.createIngredientCategory(request.getName(), user.getId());
+
+        return new ResponseEntity<>(ingredientCategory, HttpStatus.CREATED);
     }
+
+
 
 
 
@@ -80,4 +78,11 @@ public class IngredientController {
         List<IngredientCategory> items = ingredientsService.findIngredientCategoryByRestaurantId(id);
         return new ResponseEntity<>(items, HttpStatus.OK);
     }
+//    @PostMapping("/item")
+//    public ResponseEntity<IngredientsItem> createIngredient(@RequestBody IngredientRequest request,
+//                                                            @RequestHeader("Authorization") String jwt) throws Exception {
+//        User user = userService.findUserByJwtToken(jwt);
+//        IngredientsItem ingredient = ingredientsService.createIngredientItem(request.getRestaurantId(), request.getName(), request.getCategoryId());
+//        return new ResponseEntity<>(ingredient, HttpStatus.CREATED);
+//    }
 }

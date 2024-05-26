@@ -3,6 +3,7 @@ package com.foodwebsite.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.foodwebsite.model.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,15 +25,18 @@ public class IngredientServiceImp implements IngredientsService{
     @Autowired
     private RestaurantService restaurantService;
 
+
     @Override
-    public IngredientCategory createIngredientCategory(String name, Long restaurantId) throws Exception {
-        Restaurant restaurant = restaurantService.findRestaurantById(restaurantId);
+    public IngredientCategory createIngredientCategory(String name, Long userId) throws Exception {
+        Restaurant restaurant = restaurantService.getRestaurantByUserId(userId);
+
         IngredientCategory category = new IngredientCategory();
-        category.setRestaurant(restaurant);
         category.setName(name);
+        category.setRestaurant(restaurant);
 
         return ingredientCategoryRepository.save(category);
     }
+
 
     @Override
     public IngredientCategory findIngredientCategoryById(Long id) throws Exception {

@@ -10,6 +10,7 @@ import java.util.List;
 public interface RestaurantService {
 
     public Restaurant createRestaurant(CreateRestaurantRequest req , User user);
+//    List<Restaurant> findRestaurantsByOwnerId(Long ownerId) throws Exception;
 
 
     public Restaurant updateRestaurant(Long restaurantId , CreateRestaurantRequest updateRestaurant) throws Exception;
