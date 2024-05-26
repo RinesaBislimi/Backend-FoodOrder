@@ -43,11 +43,10 @@ public class IngredientController {
 
 
 
-    @PostMapping("/item")
+    @PostMapping("/item") // First method for creating ingredient item
     public ResponseEntity<IngredientsItem> createIngredientItem(
-        @RequestBody IngredientRequest req
-        ) throws Exception {
-
+            @RequestBody IngredientRequest req
+    ) throws Exception {
         IngredientsItem item = ingredientsService.createIngredientItem(req.getRestaurantId(), req.getName(), req.getCategoryId());
         return new ResponseEntity<>(item, HttpStatus.CREATED);
     }
@@ -78,11 +77,5 @@ public class IngredientController {
         List<IngredientCategory> items = ingredientsService.findIngredientCategoryByRestaurantId(id);
         return new ResponseEntity<>(items, HttpStatus.OK);
     }
-//    @PostMapping("/item")
-//    public ResponseEntity<IngredientsItem> createIngredient(@RequestBody IngredientRequest request,
-//                                                            @RequestHeader("Authorization") String jwt) throws Exception {
-//        User user = userService.findUserByJwtToken(jwt);
-//        IngredientsItem ingredient = ingredientsService.createIngredientItem(request.getRestaurantId(), request.getName(), request.getCategoryId());
-//        return new ResponseEntity<>(ingredient, HttpStatus.CREATED);
-//    }
+
 }
