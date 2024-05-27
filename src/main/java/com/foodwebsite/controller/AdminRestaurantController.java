@@ -21,7 +21,7 @@ public class AdminRestaurantController {
     @Autowired
     private UserService userService;
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<Restaurant> createRestaurant(
             @RequestBody CreateRestaurantRequest req,
             @RequestHeader("Authorization") String jwt
@@ -81,16 +81,34 @@ public class AdminRestaurantController {
     @GetMapping("/user")
     public ResponseEntity<Restaurant> findRestaurantByUserId(
             @RequestHeader("Authorization") String jwt
-    ) throws Exception {
-        // Find the user based on the JWT token
-        User user = userService.findUserByJwtToken(jwt);
+    ) {
+        try {
+            // Find the user based on the JWT token
+            User user = userService.findUserByJwtToken(jwt);
 
-        // Retrieve the restaurant associated with the user ID
-        Restaurant restaurant = restaurantService.getRestaurantByUserId(user.getId());
+            // Check if user is null
+            if (user == null) {
+                // If user is null, return a 404 Not Found response
+                return ResponseEntity.notFound().build();
+            }
 
-        // Return the retrieved restaurant as a response with HTTP status OK (200)
-        return new ResponseEntity<>(restaurant, HttpStatus.OK);
+            // Retrieve the restaurant associated with the user ID
+            Restaurant restaurant = restaurantService.getRestaurantByUserId(user.getId());
+
+            // Check if restaurant is null
+            if (restaurant == null) {
+                // If restaurant is null, return a 404 Not Found response
+                return ResponseEntity.notFound().build();
+            }
+
+            // Return the retrieved restaurant as a response with HTTP status OK (200)
+            return ResponseEntity.ok(restaurant);
+        } catch (Exception e) {
+            // If an exception occurs, return a 500 Internal Server Error response
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
+
 
 
 }

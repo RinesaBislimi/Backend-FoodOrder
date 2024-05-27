@@ -18,24 +18,28 @@ public class FoodServiceImp implements FoodService{
 
     @Autowired
     private FoodRepository foodRepository;
-    @Override
-    public Food createFood(CreateFoodRequest req, Category category, Restaurant restaurant) {
-        Food food = new Food();
-        food.setFoodCategory(category);
-        food.setRestaurant(restaurant);
-        food.setDescription(req.getDescription());
-        food.setImages(req.getImages());
-        food.setName(req.getName());
-        food.setPrice(req.getPrice());
-        food.setIngredientsItems((req.getIngredients()));
-        food.setSeasonal(req.isSeasional());
-        food.setCreationDate(new Date());
-        food.setVegetarian(req.isVegetarin());
 
-        Food savedFood= foodRepository.save(food);
-        restaurant.getFoods().add(savedFood);
-        return  savedFood;
+    @Autowired
+    private RestaurantService restaurantService;
+
+
+    @Override
+    public Food createFood (CreateFoodRequest request, Long userId) throws  Exception{
+        Restaurant restaurant = restaurantService.getRestaurantByUserId(userId);
+        Food food = new Food();
+        food.setName(request.getName());
+        food.setDescription(request.getDescription());
+        food.setFoodCategory(request.getCategory());
+        food.setSeasonal(request.isSeasional());
+        food.setImages(request.getImages());
+        food.setCreationDate(new Date());
+        food.setPrice(request.getPrice());
+        food.setRestaurant(restaurant);
+        return foodRepository.save(food);
     }
+
+
+
 
     @Override
     public void deleteFood(Long foodId) throws Exception {
@@ -93,6 +97,13 @@ public class FoodServiceImp implements FoodService{
     private List<Food> filterByVegetarian(List<Food> foods, boolean isVegitarian) {
         return foods.stream().filter(food -> food.isVegetarian()==isVegitarian).collect(Collectors.toList());
     }
+
+    @Override
+    public List<Food> findMenuByRestaurantId(Long id) throws Exception {
+        Restaurant restaurant = restaurantService.findRestaurantById(id);
+        return foodRepository.findByRestaurantId(id);
+    }
+
 
     @Override
     public List<Food> searchFood(String keyword) {

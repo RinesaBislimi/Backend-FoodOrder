@@ -19,6 +19,6 @@ public class CreateFoodRequest {
     private Long restaurantId;
     private boolean vegetarin;
     private boolean seasional;
-    private List<IngredientsItem>ingredients;
+//    private List<IngredientsItem>ingredients;
 
 }
