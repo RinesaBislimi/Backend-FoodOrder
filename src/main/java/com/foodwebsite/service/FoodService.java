@@ -8,7 +8,7 @@ import com.foodwebsite.request.CreateFoodRequest;
 import java.util.List;
 
 public interface FoodService {
-    public Food createFood(CreateFoodRequest req, Category category, Restaurant restaurant);
+    public Food createFood (CreateFoodRequest request, Long userId) throws  Exception;
 
     void deleteFood(Long foodId) throws Exception;
 
@@ -22,4 +22,5 @@ public interface FoodService {
     public Food findfoodById(Long foodId)throws Exception;
 
     public Food updateAvailibiityStatus(Long foodId)throws Exception;
+    public List<Food> findMenuByRestaurantId(Long id) throws Exception;
 }

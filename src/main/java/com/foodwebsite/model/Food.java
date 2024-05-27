@@ -1,5 +1,6 @@
 package com.foodwebsite.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,20 +29,19 @@ public class Food {
     @ManyToOne
     private Category foodCategory;
 
-    @Column(length = 1000)
     @ElementCollection
+    @Column(length = 1000)
     private List<String> images;
 
     private boolean available;
 
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
     private Restaurant restaurant;
 
     private boolean isVegetarian;
     private boolean isSeasonal;
 
-    @ManyToMany
-    private List<IngredientsItem> ingredientsItems= new ArrayList<>();
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;

@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class IngredientsItem {
     @Id
     @GeneratedValue(strategy =  GenerationType.AUTO)
@@ -27,4 +26,43 @@ public class IngredientsItem {
 
     private boolean inStoke = true;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public IngredientCategory getCategory() {
+        return category;
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setCategory(IngredientCategory ingredientCategory) {
+        this.category = ingredientCategory;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    public boolean isInStoke() {
+        return inStoke;
+    }
+
+    public void setInStoke(boolean inStoke) {
+        this.inStoke = inStoke;
+    }
 }
